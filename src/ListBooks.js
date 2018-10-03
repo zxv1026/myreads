@@ -1,8 +1,24 @@
 import React, { Component } from 'react'
+import * as BooksAPI from './BooksAPI'
 import { Link } from "react-router-dom";
 import Book from "./Book";
 
 class ListBooks extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            books: []
+        }
+        console.log("app", this)
+    }
+
+    componentDidMount() {
+        BooksAPI.getAll().then((books) => {
+            this.setState({
+                books
+            })
+        })
+    }
     render() {
         return (
             <div className="list-books">
@@ -15,7 +31,7 @@ class ListBooks extends Component {
                             <h2 className="bookshelf-title">Currently Reading</h2>
                             <div className="bookshelf-books">
                                 <ol className="books-grid">
-                                    {this.props.books.filter((book) => book.shelf === 'currentlyReading')
+                                    {this.state.books.filter((book) => book.shelf === 'currentlyReading')
                                         .map((book) => (
                                             <li key={book.id}>
                                                 <Book book={book} />
@@ -28,7 +44,7 @@ class ListBooks extends Component {
                             <h2 className="bookshelf-title">Want to Read</h2>
                             <div className="bookshelf-books">
                                 <ol className="books-grid">
-                                    {this.props.books.filter((book) => book.shelf === 'wantToRead')
+                                    {this.state.books.filter((book) => book.shelf === 'wantToRead')
                                         .map((book) => (
                                             <li key={book.id}>
                                                 <Book book={book} />
@@ -41,7 +57,7 @@ class ListBooks extends Component {
                             <h2 className="bookshelf-title">Read</h2>
                             <div className="bookshelf-books">
                                 <ol className="books-grid">
-                                    {this.props.books.filter((book) => book.shelf === 'read')
+                                    {this.state.books.filter((book) => book.shelf === 'read')
                                         .map((book) => (
                                             <li key={book.id}>
                                                 <Book book={book} />
