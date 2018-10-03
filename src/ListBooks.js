@@ -13,6 +13,14 @@ class ListBooks extends Component {
     }
 
     componentDidMount() {
+        this.getAllBooks()
+    }
+    updateBookShelf = (id,shelf) => {
+        BooksAPI.update(this.state.books.find((c) => c.id === id),shelf).then(
+            this.getAllBooks()
+        )
+    }
+    getAllBooks = () => {
         BooksAPI.getAll().then((books) => {
             this.setState({
                 books
@@ -34,7 +42,10 @@ class ListBooks extends Component {
                                     {this.state.books.filter((book) => book.shelf === 'currentlyReading')
                                         .map((book) => (
                                             <li key={book.id}>
-                                                <Book book={book} />
+                                                <Book 
+                                                    book={book}
+                                                    onUpdateBookShelf={this.updateBookShelf}
+                                                />
                                             </li>
                                     ))}
                                 </ol>
@@ -47,7 +58,10 @@ class ListBooks extends Component {
                                     {this.state.books.filter((book) => book.shelf === 'wantToRead')
                                         .map((book) => (
                                             <li key={book.id}>
-                                                <Book book={book} />
+                                                <Book 
+                                                    book={book}
+                                                    onUpdateBookShelf={this.updateBookShelf}
+                                                />
                                             </li>
                                     ))}
                                 </ol>
@@ -60,7 +74,10 @@ class ListBooks extends Component {
                                     {this.state.books.filter((book) => book.shelf === 'read')
                                         .map((book) => (
                                             <li key={book.id}>
-                                                <Book book={book} />
+                                                <Book 
+                                                    book={book}
+                                                    onUpdateBookShelf={this.updateBookShelf}
+                                                />
                                             </li>
                                     ))}
                                 </ol>
